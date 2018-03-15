@@ -1,0 +1,11 @@
+// See Buefy customization docs for more: https://buefy.github.io/#/documentation/customization
+
+@import "var";
+
+// Import Bulma and Buefy styles
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
+
+// Import your library's styles
+@import 'lib';
+@import 'docs';
