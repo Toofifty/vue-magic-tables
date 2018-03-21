@@ -7,6 +7,7 @@
             <div class="column is-three-quarters">
                 <div class="table-container">
                     <magic-table
+                        :top-left-header="[['Table1']]"
                         :row-headers="rowHeaders"
                         :column-headers="columnHeaders"
                         :data="tableData"/>
@@ -14,6 +15,7 @@
                 <div class="table-container">
                     <magic-table
                         class="default"
+                        :top-left-header="[['Table2']]"
                         :row-headers="rowHeaders"
                         :column-headers="columnHeaders"
                         :data="tableData"/>
@@ -106,6 +108,5 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin-top: 60px;
 }
 </style>

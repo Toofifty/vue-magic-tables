@@ -2,8 +2,8 @@
     width: 100%;
     height: 100%;
 
-    --top-spacing: 50px;
     --left-spacing: 50px;
+    --header-height: 50px;
 
     display: flex;
 
@@ -21,11 +21,11 @@
 
     &__struct {
         &__left {
-            height: calc(100% - var(--top-spacing));
+            height: calc(100% - var(--header-height));
         }
         &__right {
             width: calc(100% - var(--left-spacing));
-            height: calc(100% - var(--top-spacing));
+            height: calc(100% - var(--header-height));
         }
     }
 
@@ -61,6 +61,8 @@
       &__cell {
         min-width: 20px;
         min-width: var(--cell-width);
+        height: 20px;
+        height: var(--header-height);
       }
     }
 
@@ -75,6 +77,17 @@
         &__cell {
             height: 20px;
             height: var(--cell-height);
+        }
+    }
+
+    &__top-left {
+        &__container {
+            width: 100%;
+            overflow: hidden;
+        }
+        &__cell {
+            height: 20px;
+            height: var(--header-height);
         }
     }
 }
@@ -107,6 +120,16 @@ $secondary: #35485d;
         &__header-row {
             &__container {
                 background: $secondary;
+            }
+            &__cell {
+                color: #FFF;
+                padding: 10px;
+                text-align: center;
+            }
+        }
+        &__top-left {
+            &__container {
+                background: $primary;
             }
             &__cell {
                 color: #FFF;

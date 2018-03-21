@@ -2,19 +2,21 @@
     <div
         class="magic-table__data__container"
         :style="{
-            cursor: pannable && isPanning
-                ? ['-webkit-grabbing', 'grabbing']
-                : ['-webkit-grab', 'grab']
+            cursor: pannable 
+                ? isPanning
+                    ? ['-webkit-grabbing', 'grabbing']
+                    : ['-webkit-grab', 'grab']
+                : null
         }"
         @scroll="updateByScroll"
-        @mousedown="beginPan"
-        v-once>
+        @mousedown="beginPan">
         <table
             class="magic-table__data__table"
             ref="table"
             :class="{
                 'no-select': pannable    
-            }">
+            }"
+            v-once>
             <tbody
                 class="magic-table__data__body">
                 <tr
@@ -27,7 +29,7 @@
                         :ref="'cell' + rowIndex"
                         v-for="(cell, cellIndex) in row"
                         :key="cellIndex"
-                        :style="!varStyles ? {
+                        :style="!cssVars ? {
                                 minWidth: cellWidth + 'px',
                                 height: cellHeight + 'px'
                             } : null">
@@ -71,7 +73,7 @@ export default {
             type: Number,
             default: 0
         },
-        varStyles: {
+        cssVars: {
             type: Boolean,
             default: false
         },

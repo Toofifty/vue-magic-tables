@@ -14,7 +14,7 @@
                         :ref="'cell' + rowIndex"
                         :key="cellIndex"
                         v-for="(cell, cellIndex) in row"
-                        :style="!varStyles ? {
+                        :style="!cssVars ? {
                                 height: cellHeight + 'px'
                             } : null">
                         {{ cell }}
@@ -46,7 +46,7 @@ export default {
             type: Number,
             default: 0
         },
-        varStyles: {
+        cssVars: {
             type: Boolean,
             default: false
         }

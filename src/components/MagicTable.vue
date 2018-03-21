@@ -6,20 +6,20 @@
         :style="{
             '--cell-width': maxCellWidth + 'px',
             '--cell-height': maxCellHeight + 'px',
-            '--left-spacing': spacingLeft + 'px',
-            '--top-spacing': spacingTop + 'px'
+            '--header-height': maxHeaderHeight + 'px'
         }">
         <div class="magic-table__struct__left">
-            <div :style="{
-                height: maxCellHeight + 'px'
-            }"/>
+            <top-left
+                ref="topLeft"
+                :data="topLeftHeader"
+                :header-height="maxHeaderHeight"
+                :css-vars="cssVars"/>
             <row-header
                 ref="rowHeader"
                 :data="rowHeaders"
                 :offset-y="offsetY"
                 :cell-height="maxCellHeight"
-                :spacing-top="spacingTop"
-                :var-styles="varStyles"/>
+                :css-vars="cssVars"/>
         </div>
         <div class="magic-table__struct__right">
             <column-header
@@ -27,19 +27,17 @@
                 :data="columnHeaders"
                 :offset-x="offsetX"
                 :cell-width="maxCellWidth"
-                :spacing-left="spacingLeft"
-                :var-styles="varStyles"/>
+                :header-height="maxHeaderHeight"
+                :css-vars="cssVars"/>
             <table-data
                 ref="dataTable"
                 :data="data"
                 :offset-x="offsetX"
                 :offset-y="offsetY"
-                :spacing-top="spacingTop"
-                :spacing-left="spacingLeft"
                 :cell-width="maxCellWidth"
                 :cell-height="maxCellHeight"
                 :pannable="pannable"
-                :var-styles="varStyles"
+                :css-vars="cssVars"
                 @update-offset="updateOffset"/>
         </div>
     </div>
@@ -47,6 +45,7 @@
 
 <script>
 import TableData from './TableData'
+import TopLeft from './TopLeft'
 import ColumnHeader from './ColumnHeader'
 import RowHeader from './RowHeader'
 
@@ -54,6 +53,7 @@ export default {
     name: 'magic-table',
     components: {
         TableData,
+        TopLeft,
         ColumnHeader,
         RowHeader
     },
@@ -87,6 +87,10 @@ export default {
                 'column-header-9',
                 'column-header-10'
             ]]
+        },
+        topLeftHeader: {
+            type: Array,
+            default: () => [[]]
         },
         data: {
             type: Array,
@@ -222,11 +226,10 @@ export default {
         return {
             offsetX: 0,
             offsetY: 0,
-            spacingTop: 0,
-            spacingLeft: 0,
             maxCellWidth: 0,
             maxCellHeight: 0,
-            varStyles: false
+            maxHeaderHeight: 0,
+            cssVars: false
         }
     },
     computed: {
@@ -243,13 +246,11 @@ export default {
         }
     },
     created () {
-        this.varStyles = window.CSS && CSS.supports('color', 'var(--primary)')
+        this.cssVars = window.CSS && CSS.supports('color', 'var(--primary)')
     },
     mounted () {
-        this.refreshSpacing()
         this.refreshCellSizes()
         this.$watch('dataChecksum', () => {
-            this.refreshSpacing()
             this.maxCellWidth = 0
             this.maxCellHeight = 0
             this.$nextTick(() => {
@@ -266,11 +267,11 @@ export default {
                 this.offsetY = y
             }
         },
-        refreshSpacing () {
-            this.spacingTop = this.$refs.columnHeader.getTotalHeight()
-            this.spacingLeft = this.$refs.rowHeader.getTotalWidth()
-        },
         refreshCellSizes () {
+            this.maxHeaderHeight = Math.max(
+                this.$refs.topLeft.getTotalHeight(),
+                this.$refs.columnHeader.getTotalHeight()
+            )
             this.maxCellWidth = Math.max(
                 this.$refs.dataTable.getMaxCellWidth(),
                 this.$refs.columnHeader.getMaxCellWidth()
