@@ -1,31 +1,47 @@
 <template>
-    <div id="app" class="container is-fluid">
-        <div class="columns">
-            <div class="column is-one-quarter">
+    <div id="app">
+        <section class="hero is-primary">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                        Vue Magic Tables
+                    </h1>
+                    <h1 class="subtitle">
+                        Pannable and scrollable data tables in Vue
+                    </h1>
+                </div>
+            </div>
+        </section>
+        <section class="section container is-fluid">
+            <div class="columns">
+                <div class="column is-one-quarter">
 
-            </div>
-            <div class="column is-three-quarters">
-                <div class="table-container">
-                    <magic-table
-                        :top-left-header="[['Table1']]"
-                        :row-headers="rowHeaders"
-                        :column-headers="columnHeaders"
-                        :data="tableData"/>
                 </div>
-                <div class="table-container">
-                    <magic-table
-                        class="default"
-                        :top-left-header="[['Table2']]"
-                        :row-headers="rowHeaders"
-                        :column-headers="columnHeaders"
-                        :data="tableData"/>
+                <div class="column is-three-quarters">
+                    <h1 class="title">Default styling</h1>
+                    <div class="table-container">
+                        <magic-table
+                            class="default"
+                            :top-left-header="[['Table2']]"
+                            :row-headers="rowHeaders"
+                            :column-headers="columnHeaders"
+                            :data="tableData"/>
+                    </div>
+                    <h1 class="title">No styling</h1>
+                    <div class="table-container">
+                        <magic-table
+                            :top-left-header="[['Table1']]"
+                            :row-headers="rowHeaders"
+                            :column-headers="columnHeaders"
+                            :data="tableData"/>
+                    </div>
+                    <button 
+                        @click="switchData">
+                        Refresh
+                    </button>
                 </div>
-                <button 
-                    @click="switchData">
-                    Refresh
-                </button>
             </div>
-        </div>
+        </section>
     </div>
 </template>
 
@@ -106,7 +122,6 @@ export default {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
     color: #2c3e50;
 }
 </style>
