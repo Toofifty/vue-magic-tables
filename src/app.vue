@@ -28,6 +28,7 @@
                             :data="tableData"/>
                     </div>
                     <h1 class="title">No styling</h1>
+                    <p>Use your own CSS!</p>
                     <div class="table-container">
                         <magic-table
                             :top-left-header="[['Table1']]"
@@ -87,7 +88,13 @@ export default {
                 for (let i = 1; i <= this.dataWidth; i++) {
                     if (this.dataType === 'mult') {
                         if (i * j % 15 === 0) {
-                            row.push('fizzbuzz')
+                            row.push({
+                                class: 'fizzbuzz',
+                                style: {
+                                    textAlign: 'right'
+                                },
+                                value: 'fb'
+                            })
                         } else if (i * j % 3 === 0) {
                             row.push('fizz')
                         } else if (i * j % 5 === 0) {

@@ -11,13 +11,17 @@
                     v-for="(row, rowIndex) in data">
                     <th
                         class="magic-table__header-row__cell"
+                        :class="cell.class ? cell.class : null"
                         :ref="'cell' + rowIndex"
                         :key="cellIndex"
                         v-for="(cell, cellIndex) in row"
-                        :style="!cssVars ? {
+                        :style="conditionalMerge(
+                            !cssVars, {
                                 height: cellHeight + 'px'
-                            } : null">
-                        {{ cell }}
+                            },
+                            cell.style, cell.style
+                        )">
+                        {{ cell.value !== undefined ? cell.value : cell }}
                     </th>
                 </tr>
             </thead>
@@ -62,6 +66,16 @@ export default {
         },
         getMaxCellHeight () {
             return Math.max(...this.$refs.cell0.map(v => v.clientHeight))
+        },
+        conditionalMerge (cond1, object1, cond2, object2) {
+            if (cond1 && cond2) {
+                return Object.assign({}, object1, object2)
+            } else if (cond1) {
+                return object1
+            } else if (cond2) {
+                return object2
+            }
+            return null
         }
     }
 }

@@ -26,18 +26,23 @@
                     :key="rowIndex">
                     <td
                         class="magic-table__data__cell"
+                        :class="cell.class ? cell.class : null"
                         :ref="'cell' + rowIndex"
                         v-for="(cell, cellIndex) in row"
                         :key="cellIndex"
-                        :style="!cssVars ? {
+                        :style="conditionalMerge(
+                            !cssVars, {
                                 minWidth: cellWidth + 'px',
                                 height: cellHeight + 'px'
-                            } : null">
-                        {{ cell }}
+                            },
+                            cell.style, cell.style
+                        )">
+                        {{ cell.value !== undefined ? cell.value : cell }}
                     </td>
                 </tr>
             </tbody>
         </table>
+        <div class="scrollbar-spacing"/>
     </div>
 </template>
 
@@ -135,6 +140,16 @@ export default {
         },
         getMaxScrollY () {
             return this.$refs.table.clientHeight - this.$el.clientHeight
+        },
+        conditionalMerge (cond1, object1, cond2, object2) {
+            if (cond1 && cond2) {
+                return Object.assign({}, object1, object2)
+            } else if (cond1) {
+                return object1
+            } else if (cond2) {
+                return object2
+            }
+            return null
         }
     }
 }
